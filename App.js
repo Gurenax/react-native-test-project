@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, ListView } from 'react-native'
 import Component1 from './components/Component1/Component1'
 import Component2 from './components/Component2/Component2'
 import Component3 from './components/Component3/Component3'
+import Component4 from './components/Component4/Component4'
 
 export default class App extends Component {
   state = {
@@ -39,6 +40,17 @@ export default class App extends Component {
   render() {
     const name = this.state.showName ? this.state.name : 'No name'
     const { textValue, switchValue } = this.state
+
+    // const users = [
+    //   {name: 'John Doe'},
+    //   {name: 'Brad Traversy'},
+    //   {name: 'Steve Smith'},
+    //   {name: 'Janet Williams'}
+    // ]
+    // const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+    // const dataSource = ds.cloneWithRows(users)
+    // console.log(dataSource)
+
     return (
       <View>
         <Text>Hello World!</Text>
@@ -54,6 +66,11 @@ export default class App extends Component {
           switchValue={switchValue}
           onSwitchChange={this.onSwitchChange.bind(this)}
         />
+        <Component4
+          // userDataSource={dataSource}
+          // renderRow={this.renderRow.bind(this)}
+        />
+
       </View>
     )
   }
