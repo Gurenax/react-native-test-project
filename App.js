@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
-import { Text, View, ListView } from 'react-native'
+import { Text, View, ListView, ScrollView } from 'react-native'
 import Component1 from './components/Component1/Component1'
 import Component2 from './components/Component2/Component2'
 import Component3 from './components/Component3/Component3'
 import Component4 from './components/Component4/Component4'
+import Component5 from './components/Component5/Component5'
 
 export default class App extends Component {
   state = {
     name: 'Brad',
     showName: false,
     textValue: 'Hello',
-    switchValue: false
+    switchValue: false,
+    userDataSource: null
   }
 
   onPress1() {
@@ -37,9 +39,24 @@ export default class App extends Component {
     })
   }
 
+  fetchUsers = () => {
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(response => {
+        this.setState({
+          userDataSource: ds.cloneWithRows(response)
+        })
+      })
+  }
+
+  componentDidMount() {
+    this.fetchUsers()
+  }
+
   render() {
     const name = this.state.showName ? this.state.name : 'No name'
-    const { textValue, switchValue } = this.state
+    const { textValue, switchValue, userDataSource } = this.state
 
     // const users = [
     //   {name: 'John Doe'},
@@ -52,7 +69,7 @@ export default class App extends Component {
     // console.log(dataSource)
 
     return (
-      <View>
+      <ScrollView>
         <Text>Hello World!</Text>
         <Component1 message='Hello World!' name={ name } />
         <Component2
@@ -66,12 +83,11 @@ export default class App extends Component {
           switchValue={switchValue}
           onSwitchChange={this.onSwitchChange.bind(this)}
         />
-        <Component4
-          // userDataSource={dataSource}
-          // renderRow={this.renderRow.bind(this)}
-        />
+        <Component4 />
+        <Component5 dataSource={userDataSource} />
 
-      </View>
+
+      </ScrollView>
     )
   }
 }
