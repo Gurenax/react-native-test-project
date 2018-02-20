@@ -1,102 +1,42 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Text, View, ListView, ScrollView } from 'react-native'
+import { StackNavigator } from 'react-navigation'
+import HomeScreen from './components/HomeScreen'
 import Component1 from './components/Component1/Component1'
 import Component2 from './components/Component2/Component2'
 import Component3 from './components/Component3/Component3'
 import Component4 from './components/Component4/Component4'
 import Component5 from './components/Component5/Component5'
+import Component6 from './components/Component6/Component6'
 
-export default class App extends Component {
-  state = {
-    name: 'Brad',
-    showName: false,
-    textValue: 'Hello',
-    switchValue: false,
-    userDataSource: null
+const RootStack = StackNavigator(
+  {
+    Home: {
+      screen: HomeScreen
+    },
+    Component5: {
+      screen: Component5
+    },
+    Component6: {
+      screen: Component6
+    }
+  },
+  {
+    headerMode: 'none',
+    navigationOptions: {
+        headerVisible: false,
+    },
+    initialRouteName: 'Home'
   }
+)
 
-  onPress1() {
-    console.log('Area 1 Pressed!')
-  }
-
-  onPress2() {
-    console.log('Area 2 Pressed!')
-  }
-
-  onChangeText(value) {
-    this.setState({
-      textValue: value
-    })
-  }
-
-  onSubmit() {
-    console.log('Input Submitted!')
-  }
-
-  onSwitchChange(value) {
-    this.setState({
-      switchValue: value
-    })
-  }
-
-  fetchUsers = () => {
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(response => {
-        this.setState({
-          userDataSource: ds.cloneWithRows(response)
-        })
-      })
-  }
-
-  componentDidMount() {
-    this.fetchUsers()
-  }
-
+export default class App extends React.Component {
   render() {
-    const name = this.state.showName ? this.state.name : 'No name'
-    const { textValue, switchValue, userDataSource } = this.state
-
-    // const users = [
-    //   {name: 'John Doe'},
-    //   {name: 'Brad Traversy'},
-    //   {name: 'Steve Smith'},
-    //   {name: 'Janet Williams'}
-    // ]
-    // const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-    // const dataSource = ds.cloneWithRows(users)
-    // console.log(dataSource)
-
-    return (
-      <ScrollView>
-        <Text>Hello World!</Text>
-        <Component1 message='Hello World!' name={ name } />
-        <Component2
-          onPress1={this.onPress1}
-          onPress2={this.onPress2}
-        />
-        <Component3
-          value={textValue}
-          onChangeText={this.onChangeText.bind(this)}
-          onSubmit={this.onSubmit}
-          switchValue={switchValue}
-          onSwitchChange={this.onSwitchChange.bind(this)}
-        />
-        <Component4 />
-        <Component5 dataSource={userDataSource} />
-
-
-      </ScrollView>
-    )
+    return <RootStack />
   }
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center'
-//   }
-// })
+// const SimpleApp = StackNavigator(
+//   { Home: { screen: HomeScreen }, LoginView: { screen: LoginView } },
+//   (navigationOptions: { header: { visible: false } })
+// )
