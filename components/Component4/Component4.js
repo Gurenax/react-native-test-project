@@ -1,10 +1,7 @@
 import React from 'react'
 import { Text, View, ListView, StyleSheet } from 'react-native'
 
-const Component4 = ({
-  // userDataSource,
-  // renderRow
-}) => {
+const Component4 = () => {
   const users = [
     {name: 'John Doe'},
     {name: 'Brad Traversy'},
