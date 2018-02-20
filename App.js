@@ -9,13 +9,24 @@ export default class App extends Component {
     showName: false
   }
 
+  onPress1() {
+    console.log('Area 1 Pressed!')
+  }
+
+  onPress2() {
+    console.log('Area 2 Pressed!')
+  }
+
   render() {
     const name = this.state.showName ? this.state.name : 'No name'
     return (
       <View>
         <Text>Hello World!</Text>
         <Component1 message='Hello World!' name={ name } />
-        <Component2 />
+        <Component2
+          onPress1={this.onPress1}
+          onPress2={this.onPress2}
+        />
       </View>
     )
   }
